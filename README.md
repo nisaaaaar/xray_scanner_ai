@@ -1,85 +1,125 @@
+---
+
 ### ✅ `README.md`
 
 # 🩻 X-Ray Scanner AI
 
-A deep learning-powered web application built with Flask and PyTorch that analyzes chest X-ray images to predict the likelihood of multiple thoracic diseases.
+A deep learning-powered web application that analyzes chest X-ray images to predict the likelihood of multiple thoracic diseases using a trained neural network. Built using a Flask backend and an optional React frontend, the system serves as a demo or assistive diagnostic tool for healthcare professionals and researchers.
 
 ---
 
 ## 🔍 Features
 
-- Upload chest X-ray images.
-- Predicts the probability of 14 common thoracic diseases:
-  - Atelectasis, Cardiomegaly, Effusion, Infiltration, Mass, Nodule, Pneumonia, Pneumothorax, Consolidation, Edema, Emphysema, Fibrosis, Pleural Thickening, Hernia
-- Visualizes predictions with confidence scores.
-- Designed with a clean React frontend and Flask backend.
-- Docker & REST API ready (optional).
+* 📤 Upload chest X-ray images (JPG, PNG).
+* 🧠 Predicts probabilities of **14 thoracic conditions**:
+
+  * Atelectasis, Cardiomegaly, Effusion, Infiltration, Mass, Nodule, Pneumonia, Pneumothorax, Consolidation, Edema, Emphysema, Fibrosis, Pleural Thickening, Hernia
+* 📊 Displays predictions in a clean, user-friendly UI with confidence scores.
+* 🔗 Exposes REST API for easy integration.
+* 🧪 Can be containerized using Docker for deployment.
+
+---
+
+## 🛠️ Tech Stack
+
+### 🔹 Backend (API + Model)
+
+* **Python 3.8+**
+* **Flask** – lightweight REST API
+* **PyTorch** – deep learning inference engine
+* **TorchVision** – image preprocessing
+* **NumPy, Pillow, OpenCV** – for image manipulation
+* **Model**: ResNet-based CNN fine-tuned on NIH ChestX-ray14 dataset
+
+### 🔹 Frontend (Optional UI)
+
+* **React.js** – modern UI framework
+* **Axios** – for API communication
+* **Tailwind CSS / Bootstrap** – for styling (optional)
+
+---
+
+## 🧠 Model Details
+
+* Trained on [NIH Chest X-ray14 Dataset](https://nihcc.app.box.com/v/ChestXray-NIHCC)
+* **Multi-label classification** model using BCEWithLogitsLoss
+* Input size: 224×224 grayscale images
+* Output: Probabilities for each of the 14 diseases
 
 ---
 
 ## 🖼 Sample Prediction Output
 
-| Disease              | Probability |
-|----------------------|-------------|
-| Pneumonia            | 28.2%       |
-| Consolidation        | 53.1%       |
-| Infiltration         | 50.2%       |
-| Atelectasis          | 34.6%       |
-| ...                  | ...         |
+| Disease       | Probability |
+| ------------- | ----------- |
+| Pneumonia     | 28.2%       |
+| Consolidation | 53.1%       |
+| Infiltration  | 50.2%       |
+| Atelectasis   | 34.6%       |
+| ...           | ...         |
 
-> 📢 *“There are signs of pneumonia and consolidation. Please consult a radiologist or specialist for clinical interpretation.”*
+> 🩺 **Doctor's note**:
+> *"Your scan suggests signs of consolidation and pneumonia. These findings should be further evaluated by a qualified radiologist or pulmonologist."*
 
 ---
 
-## 🚀 Quick Start
+## ⚙️ Setup Instructions
 
-### 1. Clone the Repository
+### 🔧 1. Clone the Repository
 
 ```bash
 git clone https://github.com/your-username/xray-scanner-ai.git
 cd xray-scanner-ai
-````
+```
 
-### 2. Setup Backend (Flask + PyTorch)
+### 🔧 2. Backend Setup (Flask API)
 
 ```bash
 cd Backend
 python -m venv venv
-venv\Scripts\activate  # On Windows
-source venv/bin/activate  # On macOS/Linux
+venv\Scripts\activate   # Windows
+# OR
+source venv/bin/activate  # macOS/Linux
 
 pip install -r requirements.txt
 python app.py
 ```
 
-### 3. Upload Model Weights
-
-Place your model weights in:
+> 🧠 Model Weights:
+> Place your trained model file here:
 
 ```
 Backend/models/model.pth.tar
 ```
 
-Make sure your model is compatible with the prediction logic in `model_utils.py`.
-
 ---
 
-## 🧠 Model
-
-* Trained on [NIH Chest X-ray14 Dataset](https://nihcc.app.box.com/v/ChestXray-NIHCC).
-* Multi-label classification using a ResNet-based architecture.
-* Outputs raw disease probabilities for all 14 classes.
-
----
-
-## 🌐 Frontend (Optional)
-
-If you're using a React frontend, run it like so:
+### 🖥 3. Frontend Setup (React UI – Optional)
 
 ```bash
 cd Frontend
 npm install
 npm start
+```
+
+> Make sure the API URL in `Frontend/src/api/index.js` points to your running Flask backend (e.g. `http://localhost:5000`).
+
+---
+
+## 🧱 Architecture Overview
+
+```plaintext
+[User Uploads X-ray]
+       ⬇
+    React Frontend (Optional)
+       ⬇
+   Flask Backend API (Python)
+       ⬇
+    Model Inference (PyTorch)
+       ⬇
+  Prediction Probabilities (14 classes)
+       ⬇
+      Displayed on UI
 ```
 
 ---
@@ -88,16 +128,15 @@ npm start
 
 ```
 xray-scanner-ai/
-│
 ├── Backend/
-│   ├── app.py
-│   ├── model_utils.py
+│   ├── app.py               # Flask entrypoint
+│   ├── model_utils.py       # Model loading & prediction
 │   ├── models/
-│   │   └── model.pth.tar
+│   │   └── model.pth.tar    # Trained model weights
 │   ├── utils/
 │   └── requirements.txt
 │
-├── Frontend/  # Optional
+├── Frontend/ (optional)
 │   ├── public/
 │   ├── src/
 │   └── ...
@@ -110,28 +149,51 @@ xray-scanner-ai/
 
 ## 📝 Requirements
 
-* Python ≥ 3.8
-* PyTorch
+**Backend:**
+
 * Flask
+* PyTorch
 * torchvision
 * Pillow
 * NumPy
 * OpenCV (optional)
-* React (if using frontend)
+
+**Frontend (optional):**
+
+* Node.js ≥ 14.x
+* React
+* Axios
 
 ---
 
-## 📌 Notes
+## 🧪 Testing
 
-* This tool is for **research and educational purposes** only.
-* Not FDA/CE approved for clinical use.
-* Always consult a qualified radiologist or medical professional for diagnosis.
+To test the backend:
+
+```bash
+curl -X POST http://localhost:5000/predict \
+     -F image=@sample_chest_xray.jpg
+```
+
+To test the frontend, simply upload an image via the browser interface.
+
+---
+
+## ❗ Disclaimer
+
+* This is a **research/educational** tool and **not approved** for clinical diagnosis.
+* Always consult with certified medical professionals.
+* Predictions are probabilistic — not definitive.
 
 ---
 
 ## 🤝 Contribution
 
-Contributions are welcome! Please open issues or submit pull requests.
+Contributions are welcome! You can:
+
+* Raise issues
+* Suggest improvements
+* Submit pull requests for bug fixes or features
 
 ---
 
@@ -139,3 +201,4 @@ Contributions are welcome! Please open issues or submit pull requests.
 
 MIT License © 2025 [Nisar Ahmad](mailto:nisara305@gmail.com)
 
+---
