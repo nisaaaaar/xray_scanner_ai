@@ -1,7 +1,3 @@
-Here’s a clean, professional `README.md` for your **X-ray Scanner AI** project. It includes setup instructions, usage guide, sample outputs, and more — ideal for GitHub.
-
----
-
 ### ✅ `README.md`
 
 ````markdown
