@@ -1,6 +1,5 @@
 ### ✅ `README.md`
 
-````markdown
 # 🩻 X-Ray Scanner AI
 
 A deep learning-powered web application built with Flask and PyTorch that analyzes chest X-ray images to predict the likelihood of multiple thoracic diseases.
